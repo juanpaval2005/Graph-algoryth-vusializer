@@ -1,60 +1,30 @@
-import './style.css'
-import typescriptLogo from './assets/typescript.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import { setupCounter } from './counter.ts'
+import "./style.css";
+import { Graph } from "./graph";
+import { GraphRenderer } from "./render";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-<section id="center">
-  <div class="hero">
-    <img src="${heroImg}" class="base" width="170" height="179">
-    <img src="${typescriptLogo}" class="framework" alt="TypeScript logo"/>
-    <img src="${viteLogo}" class="vite" alt="Vite logo" />
-  </div>
-  <div>
-    <h1>Hola desde mi proyecto</h1>
-    <p>Edit <code>src/main.ts</code> and save to test <code>HMR</code></p>
-  </div>
-  <button id="counter" type="button" class="counter"></button>
-</section>
+// Crear el grafo
+const g = new Graph(false);
 
-<div class="ticks"></div>
+g.addNode({ id: "A", x: 200, y: 150, label: "A" });
+g.addNode({ id: "B", x: 500, y: 150, label: "B" });
+g.addNode({ id: "C", x: 350, y: 300, label: "C" });
+g.addNode({ id: "D", x: 200, y: 450, label: "D" });
+g.addNode({ id: "E", x: 500, y: 450, label: "E" });
 
-<section id="next-steps">
-  <div id="docs">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#documentation-icon"></use></svg>
-    <h2>Documentation</h2>
-    <p>Your questions, answered</p>
-    <ul>
-      <li>
-        <a href="https://vite.dev/" target="_blank">
-          <img class="logo" src="${viteLogo}" alt="" />
-          Explore Vite
-        </a>
-      </li>
-      <li>
-        <a href="https://www.typescriptlang.org" target="_blank">
-          <img class="button-icon" src="${typescriptLogo}" alt="">
-          Learn more
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="social">
-    <svg class="icon" role="presentation" aria-hidden="true"><use href="/icons.svg#social-icon"></use></svg>
-    <h2>Connect with us</h2>
-    <p>Join the Vite community</p>
-    <ul>
-      <li><a href="https://github.com/vitejs/vite" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#github-icon"></use></svg>GitHub</a></li>
-      <li><a href="https://chat.vite.dev/" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#discord-icon"></use></svg>Discord</a></li>
-      <li><a href="https://x.com/vite_js" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#x-icon"></use></svg>X.com</a></li>
-      <li><a href="https://bsky.app/profile/vite.dev" target="_blank"><svg class="button-icon" role="presentation" aria-hidden="true"><use href="/icons.svg#bluesky-icon"></use></svg>Bluesky</a></li>
-    </ul>
-  </div>
-</section>
+g.addEdge({ from: "A", to: "B", weight: 1 });
+g.addEdge({ from: "A", to: "C", weight: 2 });
+g.addEdge({ from: "B", to: "C", weight: 3 });
+g.addEdge({ from: "C", to: "D", weight: 4 });
+g.addEdge({ from: "C", to: "E", weight: 5 });
+g.addEdge({ from: "D", to: "E", weight: 6 });
 
-<div class="ticks"></div>
-<section id="spacer"></section>
-`
+// Crear el renderer
+const canvas = document.getElementById("graph-canvas") as HTMLCanvasElement;
+const renderer = new GraphRenderer(canvas, g);
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+// Dibujar
+renderer.render();
+
+// Exponer en window para experimentar
+(window as any).g = g;
+(window as any).renderer = renderer;
