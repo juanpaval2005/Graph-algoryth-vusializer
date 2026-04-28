@@ -1,13 +1,46 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>graph-algorithms-visualizer</title>
+    <title>Graph Algorithms Visualizer</title>
   </head>
-<body>
-    <canvas id="graph-canvas" width="800" height="600"></canvas>
+  <body>
+    <div class="container">
+      <h1>Graph Algorithms Visualizer</h1>
+
+      <div class="controls">
+        <label>Algoritmo:</label>
+        <button id="btn-bfs" class="algo-btn">BFS</button>
+        <button id="btn-dfs" class="algo-btn">DFS</button>
+        <button id="btn-dijkstra" class="algo-btn">Dijkstra</button>
+        <label>Inicio:</label>
+        <input id="start-node" type="text" value="A" maxlength="3" />
+      </div>
+
+      <label>Destino:</label>
+      <input id="end-node" type="text" value="E" maxlength="3" />
+
+      <canvas id="graph-canvas" width="800" height="500"></canvas>
+
+      <div class="step-controls">
+        <button id="btn-prev">⏮ Anterior</button>
+        <button id="btn-play">▶ Play</button>
+        <button id="btn-next">Siguiente ⏭</button>
+        <span id="step-info">Selecciona un algoritmo</span>
+      </div>
+
+      <div id="step-description"></div>
+
+      <details class="graph-editor">
+        <summary>Editar grafo (JSON)</summary>
+        <p class="hint">Modifica el JSON y presiona "Cargar grafo".</p>
+        <textarea id="graph-json" rows="12"></textarea>
+        <button id="btn-load-graph">Cargar grafo</button>
+        <span id="json-error"></span>
+      </details>
+    </div>
+
     <script type="module" src="/src/main.ts"></script>
-</body>
+  </body>
 </html>

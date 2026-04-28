@@ -5,6 +5,7 @@ export function bfs(graph: Graph, startId: string): AlgorithmStep[] {
     const steps: AlgorithmStep[] = [];
     const nodeStates = new Map<string, NodeState>();
     const queue: string[] = [];
+    const visitOrder: string[] = [];   // orden en que se visitan los nodos
 
     // Inicializar todos los nodos como "unvisited"
     for (const nodeId of graph.nodes.keys()) {
@@ -25,42 +26,30 @@ export function bfs(graph: Graph, startId: string): AlgorithmStep[] {
 
     // Loop principal
     while (queue.length > 0) {
-        // TODO 1: sacar el primer elemento de la cola con shift().
-       
         const currentId = queue.shift();
         if (currentId === undefined) break;
 
-        // TODO 2: marcar currentId como "visiting"
-        // (una sola línea: actualizar nodeStates)
-
+        // Marcar como "visiting"
         nodeStates.set(currentId, "visiting");
+        visitOrder.push(currentId);   // registrar el orden de visita
 
-
-        // TODO 3: guardar el paso "Visitando {currentId}"
-        // (similar al primer paso, pero con currentNode = currentId)
         steps.push({
-        nodeStates: new Map(nodeStates),
-        queue: [...queue],
-        description: `Visitando ${currentId}`,
-        currentNode: currentId
-    });
+            nodeStates: new Map(nodeStates),
+            queue: [...queue],
+            description: `Visitando ${currentId}`,
+            currentNode: currentId
+        });
 
         // Iterar vecinos
         const neighbors = graph.getNeighbors(currentId);
         for (const neighbor of neighbors) {
-            // TODO 4: si el vecino está "unvisited", marcarlo como "in-queue"
-            // y meterlo a la cola. Si ya tiene otro estado, no hacer nada.
-
             if (nodeStates.get(neighbor.id) === "unvisited") {
                 nodeStates.set(neighbor.id, "in-queue");
                 queue.push(neighbor.id);
             }
-
-
         }
 
-        // TODO 5: marcar currentId como "visited" y guardar el paso
-        // "Marcando {currentId} como visitado"
+        // Marcar como "visited"
         nodeStates.set(currentId, "visited");
         steps.push({
             nodeStates: new Map(nodeStates),
@@ -68,14 +57,13 @@ export function bfs(graph: Graph, startId: string): AlgorithmStep[] {
             description: `Marcando ${currentId} como visitado`,
             currentNode: null
         });
-
     }
 
-    // Paso final
+    // Paso final con orden de visita
     steps.push({
         nodeStates: new Map(nodeStates),
         queue: [],
-        description: "BFS completado",
+        description: `BFS completado. Orden de visita: ${visitOrder.join(" → ")}`,
         currentNode: null
     });
 

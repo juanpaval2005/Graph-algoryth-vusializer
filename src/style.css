@@ -1,14 +1,138 @@
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
-  background: #1a1a1a;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: #0d1117;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   min-height: 100vh;
+  padding: 20px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #58a6ff;
+}
+
+.controls, .step-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  padding: 12px;
+  background: #161b22;
+  border-radius: 8px;
+  border: 1px solid #30363d;
+}
+
+label {
+  font-size: 14px;
+  color: #8b949e;
+}
+
+button {
+  background: #21262d;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.15s;
+}
+
+button:hover:not(:disabled) {
+  background: #30363d;
+  border-color: #58a6ff;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.algo-btn.active {
+  background: #1f6feb;
+  border-color: #58a6ff;
+}
+
+input[type="text"] {
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 6px 10px;
+  width: 60px;
+  text-align: center;
 }
 
 #graph-canvas {
-  background: #0d1117;
+  background: #010409;
   border: 1px solid #30363d;
   border-radius: 8px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin-bottom: 15px;
+}
+
+#step-info {
+  font-family: monospace;
+  color: #8b949e;
+  margin-left: auto;
+}
+
+#step-description {
+  padding: 12px;
+  background: #161b22;
+  border-left: 3px solid #58a6ff;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  min-height: 24px;
+  font-size: 14px;
+}
+
+.graph-editor {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.graph-editor summary {
+  cursor: pointer;
+  font-weight: bold;
+  user-select: none;
+}
+
+.graph-editor .hint {
+  font-size: 13px;
+  color: #8b949e;
+  margin: 8px 0;
+}
+
+textarea {
+  width: 100%;
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 10px;
+  font-family: "Consolas", "Monaco", monospace;
+  font-size: 13px;
+  resize: vertical;
+  margin-bottom: 10px;
+}
+
+#json-error {
+  color: #f85149;
+  font-size: 13px;
+  margin-left: 10px;
 }
