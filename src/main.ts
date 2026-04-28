@@ -43,3 +43,22 @@ pasos.forEach((paso, i) => {
 (window as any).renderer = renderer;
 (window as any).bfs = bfs;
 (window as any).pasos = pasos;
+
+import { dfs } from "./algorythms/dfs";
+
+const pasosDfs = dfs(g, "A");
+console.log(`\nDFS generó ${pasosDfs.length} pasos:`);
+pasosDfs.forEach((paso, i) => {
+    console.log(`Paso ${i}: ${paso.description}`);
+});
+(window as any).dfs = dfs;
+
+import { dijkstra } from "./algorythms/dijkstra";
+
+const pasosDijkstra = dijkstra(g, "A");
+console.log(`\nDijkstra generó ${pasosDijkstra.length} pasos:`);
+pasosDijkstra.forEach((paso, i) => {
+    console.log(`Paso ${i}: ${paso.description}`);
+});
+console.log("Distancias finales:", Object.fromEntries(pasosDijkstra[pasosDijkstra.length - 1].peso!));
+(window as any).dijkstra = dijkstra;

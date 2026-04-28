@@ -7,4 +7,6 @@ export interface AlgorithmStep {
     queue: string[];                       // estado actual de la cola (BFS) o pila (DFS)
     description: string;                   // descripción legible para mostrar al usuario
     currentNode: string | null;            // qué nodo se está procesando AHORA
+    peso?: Map<string, number>;            // opcional: para algoritmos como Dijkstra, el peso acumulado para cada nodo
 }
+
