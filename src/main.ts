@@ -2,6 +2,7 @@ import "./style.css";
 import { Graph } from "./graph";
 import { GraphRenderer } from "./render";
 
+
 // Crear el grafo
 const g = new Graph(false);
 
@@ -25,6 +26,20 @@ const renderer = new GraphRenderer(canvas, g);
 // Dibujar
 renderer.render();
 
+import { bfs } from "./algorythms/bfs";
+// Ejecutar BFS desde A
+const pasos = bfs(g, "A");
+console.log(`BFS generó ${pasos.length} pasos:`);
+
+pasos.forEach((paso, i) => {
+    console.log(`\nPaso ${i}: ${paso.description}`);
+    console.log(`  Cola: [${paso.queue.join(", ")}]`);
+    console.log(`  Nodo actual: ${paso.currentNode}`);
+    console.log(`  Estados:`, Object.fromEntries(paso.nodeStates));
+});
+
 // Exponer en window para experimentar
 (window as any).g = g;
 (window as any).renderer = renderer;
+(window as any).bfs = bfs;
+(window as any).pasos = pasos;
