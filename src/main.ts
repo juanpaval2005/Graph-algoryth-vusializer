@@ -13,6 +13,7 @@ let renderer: GraphRenderer;
 let steps: AlgorithmStep[] = [];
 let currentStepIndex: number = -1;
 let playInterval: number | null = null;
+let currentAlgo: "bfs" | "dfs" | "dijkstra" | null = null;
 
 // ─── Grafo inicial de ejemplo ──────────────────────────────────────────
 const exampleGraph = {
@@ -47,7 +48,9 @@ function loadGraph(data: { nodes: GraphNode[]; edges: GraphEdge[] }): void {
 function resetSteps(): void {
     steps = [];
     currentStepIndex = -1;
+    currentAlgo = null;
     stopPlayback();
+    hideBanner(); 
     updateUI();
 }
 
@@ -61,9 +64,17 @@ function runAlgorithm(algoName: "bfs" | "dfs" | "dijkstra"): void {
 
     if (algoName === "bfs") steps = bfs(graph, startId);
     else if (algoName === "dfs") steps = dfs(graph, startId);
-    else steps = dijkstra(graph, startId);
+    else {
+    const endId = (document.getElementById("end-node") as HTMLInputElement).value.trim();
+    if (!endId || !graph.nodes.has(endId)) {
+        alert(`El nodo destino "${endId}" no existe en el grafo.`);
+        return;
+    }
+    steps = dijkstra(graph, startId, endId);
+}
 
     currentStepIndex = 0;
+    currentAlgo = algoName;
 
     // Marcar botón activo
     document.querySelectorAll(".algo-btn").forEach(b => b.classList.remove("active"));
@@ -83,7 +94,47 @@ function showCurrentStep(): void {
     renderer.renderWithStep(step);
 
     document.getElementById("step-description")!.textContent = step.description;
+
+    // Mostrar banner solo si es el último paso
+    if (currentStepIndex === steps.length - 1) {
+        showBanner(step.description);
+    } else {
+        hideBanner();
+    }
+
     updateUI();
+}
+
+// ─── Banner de resultado ───────────────────────────────────────────────
+function showBanner(description: string): void {
+    const banner = document.getElementById("result-banner")!;
+    const content = document.getElementById("result-banner-content")!;
+
+    // Extraer la parte útil de la descripción (después de "completado.")
+    let message = description;
+    const idx = description.indexOf(":");
+    if (idx !== -1) {
+        message = description.substring(idx + 1).trim();
+    }
+
+    content.textContent = message;
+
+    // Cambiar título y color según algoritmo
+    const title = banner.querySelector(".result-banner-title")!;
+    if (currentAlgo === "dijkstra") {
+        title.textContent = "🏁 Ruta más corta encontrada";
+        banner.classList.add("dijkstra");
+    } else {
+        title.textContent = `✓ ${currentAlgo?.toUpperCase()} completado — orden de visita`;
+        banner.classList.remove("dijkstra");
+    }
+
+    banner.classList.remove("hidden");
+}
+
+function hideBanner(): void {
+    const banner = document.getElementById("result-banner")!;
+    banner.classList.add("hidden");
 }
 
 // ─── Actualizar contadores y estado de botones ─────────────────────────

@@ -136,3 +136,48 @@ textarea {
   font-size: 13px;
   margin-left: 10px;
 }
+
+.result-banner {
+    margin-top: 16px;
+    padding: 16px 20px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #2e7d32, #43a047);
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideIn 0.4s ease-out;
+}
+
+.result-banner.dijkstra {
+    background: linear-gradient(135deg, #1565c0, #1e88e5);
+}
+
+.result-banner-title {
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0.9;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#result-banner-content {
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
